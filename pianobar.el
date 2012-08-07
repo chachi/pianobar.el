@@ -90,17 +90,31 @@ or nil to let you select.")
   '((t :weight bold))
   "Face to use to highlight user input.")
 
-(defface pianobar-mode-info-face
+(defface pianobar-mode-song-name-face
   '((t :foreground "green"))
-  "Face to use to highlight informative messages.")
+  "Face to use to highlight song names.")
 
 (defface pianobar-mode-time-face
   '((t :inherit pianobar-mode-info-face :weight bold))
   "Face to use to highlight current song time. (due to bugs, this will only highlight non-current times.)")
 
+(defface pianobar-mode-choice-number-face
+  '((t :bold t))
+  "Face used to highlight numbers for numbered choices (such as the station list)")
+
+(defface pianobar-mode-choice-item-face
+  '((t :foreground "red"))
+  "Face used to highlight item names for numbered choices (such as the station list)")
+
+(defface pianobar-mode-info-face
+  '((t :foreground "grey"))
+  "Face used to highlight info printed by pianobar, such as '(i) Receiving new playlist...'")
+
 (defvar pianobar-mode-font-lock-defaults
   '(("\\[\\?\\] \\(.*: \\)\\(.*\\)" (1 'pianobar-mode-prompt-face t) (2 'pianobar-mode-input-face t))
-	("|> \\(.*\\)" 1 'pianobar-mode-info-face t)
+	("|> \\(.*\\)" 1 'pianobar-mode-song-name-face t)
+        ("\t *\\([0-9]+)\\) +\\(q   \\|Q  \\|    \\)\\(.*\\)" (1 'pianobar-mode-choice-number-face) (3 'pianobar-mode-choice-item-face))
+        ("^(i).*" 0 'pianobar-mode-info-face)
 	("# +\\(-[0-9]+:[0-9]+/[0-9]+:[0-9]+\\)\\(.*\\)" (1 'pianobar-mode-time-face t) (2 'pianobar-mode-input-face t)))
   "The default syntax-highlighting rules for pianobar-mode.")
 
