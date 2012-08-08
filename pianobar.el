@@ -114,7 +114,7 @@ or nil to let you select.")
   '(("\\[\\?\\] \\(.*: \\)\\(.*\\)" (1 'pianobar-mode-prompt-face t) (2 'pianobar-mode-input-face t))
 	("|> \\(.*\\)" 1 'pianobar-mode-song-name-face t)
         ("\t *\\([0-9]+)\\) +\\(q   \\|Q  \\|    \\)\\(.*\\)" (1 'pianobar-mode-choice-number-face) (3 'pianobar-mode-choice-item-face))
-        ("^(i).*" 0 'pianobar-mode-info-face)
+        ("^(i).*\\|^\\[\\?\\]\\||>\\|#" 0 'pianobar-mode-info-face)
 	("# +\\(-[0-9]+:[0-9]+/[0-9]+:[0-9]+\\)\\(.*\\)" (1 'pianobar-mode-time-face t) (2 'pianobar-mode-input-face t)))
   "The default syntax-highlighting rules for pianobar-mode.")
 
