@@ -110,12 +110,39 @@ or nil to let you select.")
   '((t :foreground "grey"))
   "Face used to highlight info printed by pianobar, such as '(i) Receiving new playlist...'")
 
+(defface pianobar-mode-heart-face
+  '((t :foreground "red" :bold t))
+   "Face used to highlight the '<3' icon that appears when you love a song")
+
 (defvar pianobar-mode-font-lock-defaults
-  '(("\\[\\?\\] \\(.*: \\)\\(.*\\)" (1 'pianobar-mode-prompt-face t) (2 'pianobar-mode-input-face t))
-	("|> \\(.*\\)" 1 'pianobar-mode-song-name-face t)
-        ("\t *\\([0-9]+)\\) +\\(q   \\|Q  \\|    \\)\\(.*\\)" (1 'pianobar-mode-choice-number-face) (3 'pianobar-mode-choice-item-face))
-        ("^(i).*\\|^\\[\\?\\]\\||>\\|#" 0 'pianobar-mode-info-face)
-	("# +\\(-[0-9]+:[0-9]+/[0-9]+:[0-9]+\\)\\(.*\\)" (1 'pianobar-mode-time-face t) (2 'pianobar-mode-input-face t)))
+  '(("\\[\\?\\] \\(.*: \\)\\(.*\\)"
+     (1 'pianobar-mode-prompt-face t)
+     (2 'pianobar-mode-input-face t))
+    
+    ("|>  \\(\".*\"\\) by \\(\".*\"\\) on \\(\".*\"\\)"
+     (0 'pianobar-mode-info-face t)
+     (1 'pianobar-mode-song-name-face t)
+     (2 'pianobar-mode-song-name-face t)
+     (3 'pianobar-mode-song-name-face t))
+
+    (" <3\n"
+     (0 'pianobar-mode-heart-face))
+    
+    ("|> .*"
+     (0 'pianobar-mode-info-face))
+    
+    ("\t *\\([0-9]+)\\) +\\(q   \\|Q  \\|    \\)\\(.*\\)"
+     (1 'pianobar-mode-choice-number-face)
+     (2 'pianobar-mode-info-face)
+     (3 'pianobar-mode-choice-item-face))
+    
+    ("^(i).*\\|^\\[\\?\\]\\||>\\|#"
+     (0 'pianobar-mode-info-face))
+    
+    ("# +\\(-[0-9]+:[0-9]+/[0-9]+:[0-9]+\\)\\(.*\\)"
+     (1 'pianobar-mode-time-face t)
+     (2 'pianobar-mode-input-face t)))
+  
   "The default syntax-highlighting rules for pianobar-mode.")
 
 (defvar pianobar-prompt-regex
