@@ -191,7 +191,9 @@ Right now, this setting does not really work. At all.")
 
 (defun pianobar-output-filter (str)
   "Output filter for pianobar-mode."
-  (pianobar-set-is-prompting (string-match pianobar-prompt-regex str))
+  (save-excursion
+    (goto-char (point-max))
+    (pianobar-set-is-prompting (string-match pianobar-prompt-regex (thing-at-point 'line))))
 
   (dolist (rule pianobar-info-extract-rules)
 	(if (string-match (car rule) str)
