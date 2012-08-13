@@ -138,6 +138,10 @@ or nil to let you select.")
     
     ("^(i).*\\|^\\[\\?\\]\\||>\\|#"
      (0 'pianobar-mode-info-face))
+
+    ("\\[\\?\\]\\(.*\\[yN\\]\\) \\(.\\)?"
+     (1 'pianobar-mode-prompt-face)
+     (2 'pianobar-mode-input-face))
     
     ("# +\\(-[0-9]+:[0-9]+/[0-9]+:[0-9]+\\)\\(.*\\)"
      (1 'pianobar-mode-time-face t)
