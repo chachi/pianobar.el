@@ -131,7 +131,7 @@ or nil to let you select.")
     ("|> .*"
      (0 'pianobar-mode-info-face))
     
-    ("\t *\\([0-9]+)\\) +\\(q   \\|Q  \\|    \\)\\(.*\\)"
+    ("\t *\\([0-9]+)\\) +\\(q   \\|Q  \\|\\)\\(.*\\)"
      (1 'pianobar-mode-choice-number-face)
      (2 'pianobar-mode-info-face)
      (3 'pianobar-mode-choice-item-face))
