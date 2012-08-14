@@ -114,6 +114,10 @@ or nil to let you select.")
   '((t :foreground "red" :bold t))
    "Face used to highlight the '<3' icon that appears when you love a song")
 
+(defface pianobar-mode-error-face
+  '((t :foreground "red" :bold t))
+  "Face used to highlight errors (lines beginning with '/!\')")
+
 (defvar pianobar-mode-font-lock-defaults
   '(("\\[\\?\\] \\(.*: \\)\\(.*\\)"
      (1 'pianobar-mode-prompt-face t)
@@ -130,6 +134,9 @@ or nil to let you select.")
     
     ("|> .*"
      (0 'pianobar-mode-info-face))
+
+    ("/!\\\\.*"
+     (0 'pianobar-mode-error-face))
     
     ("\t *\\([0-9]+)\\) +\\(q   \\|Q  \\|\\)\\(.*\\)"
      (1 'pianobar-mode-choice-number-face)
