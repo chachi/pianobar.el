@@ -128,9 +128,6 @@ or nil to let you select.")
      (1 'pianobar-mode-song-name-face t)
      (2 'pianobar-mode-song-name-face t)
      (3 'pianobar-mode-song-name-face t))
-
-    (" <3\n"
-     (0 'pianobar-mode-heart-face))
     
     ("|> .*"
      (0 'pianobar-mode-info-face))
@@ -138,17 +135,20 @@ or nil to let you select.")
     ("/!\\\\.*"
      (0 'pianobar-mode-error-face))
     
-    ("\t *\\([0-9]+)\\) +\\(q   \\|Q  \\|\\)\\(.*\\)"
-     (1 'pianobar-mode-choice-number-face)
-     (2 'pianobar-mode-info-face)
-     (3 'pianobar-mode-choice-item-face))
-    
     ("^(i).*\\|^\\[\\?\\]\\||>\\|#"
      (0 'pianobar-mode-info-face))
 
     ("\\[\\?\\]\\(.*\\[yN\\]\\) \\(.\\)?"
      (1 'pianobar-mode-prompt-face)
      (2 'pianobar-mode-input-face))
+    
+    ("[ \t]*\\([0-9]+\)\\) +\\(q\\|Q\\|\\)\\(.*\\)"
+     (1 'pianobar-mode-choice-number-face)
+     (2 'pianobar-mode-info-face)
+     (3 'pianobar-mode-choice-item-face))
+    
+    (" <3\n"
+     (0 'pianobar-mode-heart-face))
     
     ("# +\\(-[0-9]+:[0-9]+/[0-9]+:[0-9]+\\)\\(.*\\)"
      (1 'pianobar-mode-time-face t)
