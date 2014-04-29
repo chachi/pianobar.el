@@ -90,18 +90,70 @@ or nil to let you select.")
   '((t :weight bold))
   "Face to use to highlight user input.")
 
-(defface pianobar-mode-info-face
+(defface pianobar-mode-song-name-face
   '((t :foreground "green"))
-  "Face to use to highlight informative messages.")
+  "Face to use to highlight song names.")
 
 (defface pianobar-mode-time-face
   '((t :inherit pianobar-mode-info-face :weight bold))
   "Face to use to highlight current song time. (due to bugs, this will only highlight non-current times.)")
 
+(defface pianobar-mode-choice-number-face
+  '((t :bold t))
+  "Face used to highlight numbers for numbered choices (such as the station list)")
+
+(defface pianobar-mode-choice-item-face
+  '((t :foreground "red"))
+  "Face used to highlight item names for numbered choices (such as the station list)")
+
+(defface pianobar-mode-info-face
+  '((t :foreground "grey"))
+  "Face used to highlight info printed by pianobar, such as '(i) Receiving new playlist...'")
+
+(defface pianobar-mode-heart-face
+  '((t :foreground "red" :bold t))
+   "Face used to highlight the '<3' icon that appears when you love a song")
+
+(defface pianobar-mode-error-face
+  '((t :foreground "red" :bold t))
+  "Face used to highlight errors (lines beginning with '/!\')")
+
 (defvar pianobar-mode-font-lock-defaults
-  '(("\\[\\?\\] \\(.*: \\)\\(.*\\)" (1 'pianobar-mode-prompt-face t) (2 'pianobar-mode-input-face t))
-	("|> \\(.*\\)" 1 'pianobar-mode-info-face t)
-	("# +\\(-[0-9]+:[0-9]+/[0-9]+:[0-9]+\\)\\(.*\\)" (1 'pianobar-mode-time-face t) (2 'pianobar-mode-input-face t)))
+  '(("\\[\\?\\] \\(.*: \\)\\(.*\\)"
+     (1 'pianobar-mode-prompt-face t)
+     (2 'pianobar-mode-input-face t))
+    
+    ("|>  \\(\".*\"\\) by \\(\".*\"\\) on \\(\".*\"\\)"
+     (0 'pianobar-mode-info-face t)
+     (1 'pianobar-mode-song-name-face t)
+     (2 'pianobar-mode-song-name-face t)
+     (3 'pianobar-mode-song-name-face t))
+    
+    ("|> .*"
+     (0 'pianobar-mode-info-face))
+
+    ("/!\\\\.*"
+     (0 'pianobar-mode-error-face))
+    
+    ("^(i).*\\|^\\[\\?\\]\\||>\\|#"
+     (0 'pianobar-mode-info-face))
+
+    ("\\[\\?\\]\\(.*\\[yN\\]\\) \\(.\\)?"
+     (1 'pianobar-mode-prompt-face)
+     (2 'pianobar-mode-input-face))
+    
+    ("[ \t]*\\([0-9]+\)\\) +\\(q\\|Q\\|\\)\\(.*\\)"
+     (1 'pianobar-mode-choice-number-face)
+     (2 'pianobar-mode-info-face)
+     (3 'pianobar-mode-choice-item-face))
+    
+    (" <3\n"
+     (0 'pianobar-mode-heart-face))
+    
+    ("# +\\(-[0-9]+:[0-9]+/[0-9]+:[0-9]+\\)\\(.*\\)"
+     (1 'pianobar-mode-time-face t)
+     (2 'pianobar-mode-input-face t)))
+  
   "The default syntax-highlighting rules for pianobar-mode.")
 
 (defvar pianobar-prompt-regex
@@ -177,7 +229,9 @@ Right now, this setting does not really work. At all.")
 
 (defun pianobar-output-filter (str)
   "Output filter for pianobar-mode."
-  (pianobar-set-is-prompting (string-match pianobar-prompt-regex str))
+  (save-excursion
+    (goto-char (point-max))
+    (pianobar-set-is-prompting (string-match pianobar-prompt-regex (thing-at-point 'line))))
 
   (dolist (rule pianobar-info-extract-rules)
 	(if (string-match (car rule) str)
@@ -203,7 +257,7 @@ Returns t on success, nil on error."
   (interactive "p")
   (if pianobar-is-prompting
 	  (self-insert-command N)
-	(pianobar-send-command last-input-char)))
+	(pianobar-send-command last-input-event)))
 
 (defun pianobar-love-current-song ()
   "Tell pianobar you love the current song."
